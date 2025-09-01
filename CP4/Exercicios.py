@@ -29,6 +29,42 @@ Garanta também que seja entre 0 e 10.
 
 '''
 
+def cadastrar_novo_aluno(nome_aluno):
+
+    while True:
+        try:
+            print("Aluno não encontrado! Deseja cadastrar este aluno?")
+            cadastrar_aluno = input("Digite 1 para sim e 2 para não: ")
+            cadastrar_aluno = int(cadastrar_aluno)
+        except:
+            print("Opção inválida! Favor digitar apenas números inteiros!\n")
+        else:
+            match cadastrar_aluno:
+                case 1:
+                    notas_alunos.update({nome_aluno: None})
+                    print(f"Aluno {nome_aluno} cadastrado no sistema!")
+                    break
+                case 2:
+                    break
+                case _:
+                    print("Opção inválida! Tente novamente!")
+
+def cadastrar_nota(nome_aluno):
+    while True:
+        nota_aluno = input(f"A nota atual do aluno {nome_aluno} é {notas_alunos[nome_aluno]}. Digite a nova nota: ")
+        try:
+            nota_aluno = float(nota_aluno)
+        except:
+            print("Nota inválida! Favor digitar apenas números!\n")
+        else:
+            if nota_aluno >= 0 and nota_aluno <= 10:
+                notas_alunos[nome_aluno] = nota_aluno
+                print(f"A nova nota do aluno {nome_aluno} é {notas_alunos[nome_aluno]}.\n")
+                break
+            else:
+                print("Nota inválida! Digite uma nota maior ou igual a 0 e menor ou igual a 10!\n")
+
+
 notas_alunos = {
     "Ana": 8.5,
     "Bruno": 7.0,
@@ -44,6 +80,7 @@ while True:
     print("3. Ver todas as notas")
     print("4. sair")
     opcao = input("Por favor, escolha o número da opção desejada: ")
+    print()
 
     try:
         opcao = int(opcao)
@@ -52,26 +89,25 @@ while True:
     else:
         match opcao:
             case 1:
-                 nome_aluno = input("Digite o nome do aluno: ")
-                 if nome_aluno in notas_alunos:
-                      print(notas_alunos[nome_aluno])
-                 else:
-                      print("Aluno não encontrado!")
+                nome_aluno = input("Digite o nome do aluno: ")
+
+                if nome_aluno in notas_alunos:
+                    print(f"A nota do {nome_aluno} é {notas_alunos[nome_aluno]}")
+                else:
+                    cadastrar_novo_aluno(nome_aluno)
+                print()
             case 2:
-                 nome_aluno = input("Qual aluno você quer alterar a nota? ")
-                 if nome_aluno in notas_alunos:
-                      nota_aluno = input(f"A nota atual deste aluno é {notas_alunos[nome_aluno]}. Digite a nova nota: ")
-                      notas_alunos[nome_aluno] = nota_aluno
-                      print(f"A nova nota do aluno {nome_aluno} é {notas_alunos[nome_aluno]}.")
-                 else:
-                      print("Aluno não encontrado!")
+                nome_aluno = input("Qual aluno você quer alterar a nota? ")
+                if nome_aluno in notas_alunos:
+                    cadastrar_nota(nome_aluno)
+                else:
+                    cadastrar_novo_aluno(nome_aluno)
             case 3:
-                 for aluno in notas_alunos:
-                      print(f"A nota do aluno {aluno} é {notas_alunos[aluno]}.")
+                for aluno in notas_alunos:
+                    print(f"A nota do aluno {aluno} é {notas_alunos[aluno]}.")
+                print()
             case 4:
-                 print("Encerrando o programa...")
-                 break
+                print("Encerrando o programa...")
+                break
             case _:
-                 print("Número inválido. Tente novamente.")
-    finally:
-         print("Programa finalizado com sucesso!")
+                print("Número inválido. Tente novamente.\n")
